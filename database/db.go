@@ -10,7 +10,11 @@ import (
 )
 
 var (
+<<<<<<< Updated upstream
 	DB *gorm.DB
+=======
+	DB  *gorm.DB
+>>>>>>> Stashed changes
 	err error
 )
 
