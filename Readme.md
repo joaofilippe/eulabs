@@ -25,3 +25,28 @@ https://documenter.getpostman.com/view/16820128/UVsPPQBa
 
 ## Estrutura do Projeto:
 
+```
+.
+├── business                   
+│   ├── products.go                   
+├── controllers             
+│   ├── products.go                   
+├── database               
+│   ├── db.go                   
+├── migrations
+│   ├── migrations.go 
+├── models                   
+│   ├── product.go 
+├── routes                   
+│   ├── routes.go 
+├── services
+│   ├── hashManager.go 
+├── LICENSE
+├── .gitignore
+├── .gitattributes
+├── go.mod
+├── go.sum
+├── main.go
+└── README.md
+```
+
