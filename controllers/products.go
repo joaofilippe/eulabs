@@ -4,31 +4,35 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/joaofilippe/go-products/business"
 	"github.com/joaofilippe/go-products/database"
 	"github.com/joaofilippe/go-products/models"
 	"github.com/labstack/echo/v4"
 )
 
+type ErrorMessage struct {
+	Err     error  `json:"err"`
+	Message string `json:"message"`
+}
+
 func Create(c echo.Context) error {
 	var product models.Product
 	if err := c.Bind(&product); err != nil {
 		errorMessage := &ErrorMessage{
-			err:     err,
-			message: "Algo deu errado criação do produto",
+			Err:     err,
+			Message: "Algo deu errado criação do produto",
 		}
 		fmt.Println(err.Error())
 		return c.JSON(http.StatusBadRequest, errorMessage)
 	}
 
+	messageBusiness, errorBusinnes  := business.Create(&product)
 
-	database.DB.Create(&product)
+	if errorBusinnes != nil {
+		return c.JSON(errorBusinnes.StatusCode, errorBusinnes.Message)
+	}
 
-	// sucessMessage := &SucessMessage{
-	// 	message: "Produto criado com sucesso!!",
-	// 	data:    &product,
-	// }
-
-	return c.JSON(http.StatusCreated, "Sucesso!")
+	return c.JSON(http.StatusCreated, messageBusiness)
 }
 
 func GetById(c echo.Context) error {
@@ -48,8 +52,8 @@ func Update(c echo.Context) error {
 
 	if err := c.Bind(&product); err != nil {
 		errorMessage := &ErrorMessage{
-			err:     err,
-			message: err.Error(),
+			Err:     err,
+			Message: err.Error(),
 		}
 		return c.JSON(http.StatusBadRequest, errorMessage)
 	}
@@ -65,14 +69,4 @@ func Delete(c echo.Context) error {
 	database.DB.Delete(&models.Product{}, productId)
 
 	return c.JSON(http.StatusOK, "Produto deletado com sucesso")
-}
-
-// type SucessMessage struct {
-// 	message string `json:"message"`
-// 	data    *models.Product `json:"data"`
-// }
-
-type ErrorMessage struct {
-	err     error  `json:"err"`
-	message string `json:"message"`
 }
