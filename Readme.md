@@ -1,5 +1,7 @@
 # Eulabs
 
+![Badge License](https://img.shields.io/badge/LICENSE-MIT-green)
+
 API desenvolvida para atender case do processo seletivo da EuLabs.
 
 Tecnologias utilizadas para o desenvolvimento:
@@ -50,3 +52,8 @@ https://documenter.getpostman.com/view/16820128/UVsPPQBa
 └── README.md
 ```
 
+### Autor
+
+João Filippe Rossi Rodrigues
+
+[![Linkedin Badge](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white&link=LINK_LINKEDIN)](https://www.linkedin.com/in/joaofilippe/)
