@@ -26,7 +26,7 @@ func Create(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, errorMessage)
 	}
 
-	messageBusiness, errorBusinnes  := business.Create(&product)
+	messageBusiness, errorBusinnes := business.Create(&product)
 
 	if errorBusinnes != nil {
 		return c.JSON(errorBusinnes.StatusCode, errorBusinnes.Message)
@@ -40,6 +40,11 @@ func GetById(c echo.Context) error {
 	id := c.Param("id")
 	database.DB.Where("id = ?", id).First(&product)
 
+	if product.ID == "" {
+		return c.JSON(http.StatusNotFound,
+			"Produto não localizado no banco de dados. Verifique o id informado.")
+	}
+
 	return c.JSON(http.StatusFound, &product)
 
 }
@@ -49,6 +54,11 @@ func Update(c echo.Context) error {
 	id := c.Param("id")
 
 	database.DB.Where("id = ?", id).First(&product)
+
+	if product.ID == "" {
+		return c.JSON(http.StatusNotFound,
+			"Produto não localizado no banco de dados. Verifique o id informado.")
+	}
 
 	if err := c.Bind(&product); err != nil {
 		errorMessage := &ErrorMessage{
@@ -60,7 +70,8 @@ func Update(c echo.Context) error {
 
 	database.DB.Model(&product).UpdateColumns(product)
 
-	return c.JSON(http.StatusAccepted, "Informações do produto alteradas com sucesso!")
+	return c.JSON(http.StatusAccepted, 
+			      "Informações do produto alteradas com sucesso!")
 }
 
 func Delete(c echo.Context) error {
@@ -69,5 +80,6 @@ func Delete(c echo.Context) error {
 
 	database.DB.Where("id = ?", id).Delete(&product)
 
-	return c.JSON(http.StatusOK, "Produto deletado com sucesso")
+	return c.JSON(http.StatusOK, 
+		          "Produto deletado com sucesso")
 }
