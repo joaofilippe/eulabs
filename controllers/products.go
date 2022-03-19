@@ -38,9 +38,9 @@ func Create(c echo.Context) error {
 func GetById(c echo.Context) error {
 	var product models.Product
 	id := c.Param("id")
-	database.DB.First(&product, id)
+	database.DB.Where("id = ?", id).First(&product)
 
-	return c.JSON(http.StatusFound, product.ID)
+	return c.JSON(http.StatusFound, &product)
 
 }
 
@@ -48,7 +48,7 @@ func Update(c echo.Context) error {
 	var product models.Product
 	id := c.Param("id")
 
-	database.DB.First(&product, id)
+	database.DB.Where("id = ?", id).First(&product)
 
 	if err := c.Bind(&product); err != nil {
 		errorMessage := &ErrorMessage{
@@ -64,9 +64,10 @@ func Update(c echo.Context) error {
 }
 
 func Delete(c echo.Context) error {
-	productId := c.Param("id")
+	var product models.Product
+	id := c.Param("id")
 
-	database.DB.Delete(&models.Product{}, productId)
+	database.DB.Where("id = ?", id).Delete(&product)
 
 	return c.JSON(http.StatusOK, "Produto deletado com sucesso")
 }

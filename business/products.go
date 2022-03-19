@@ -11,7 +11,7 @@ import (
 type SucessMessage struct {
 	StatusCode int    `json: "statusCode"`
 	Message    string `json:"message"`
-	Data       string `json:"data"`
+	ProductId  string `json:"data"`
 }
 
 type ErrorMessage struct {
@@ -42,6 +42,15 @@ func Create(product *models.Product) (*SucessMessage, *ErrorMessage) {
 		return nil, m
 	}
 
+	if product.Store == "" {
+		m := &ErrorMessage{
+			StatusCode: http.StatusBadRequest,
+			Message:    "Você deve indicar o nome da loja onde se encontra o produto.",
+		}
+
+		return nil, m
+	}
+
 	if product.Price == 0 {
 		m := &ErrorMessage{
 			StatusCode: http.StatusBadRequest,
@@ -65,7 +74,7 @@ func Create(product *models.Product) (*SucessMessage, *ErrorMessage) {
 	m := &SucessMessage{
 		StatusCode: http.StatusCreated,
 		Message:    "Produto criado com sucesso!!",
-		Data:       id,
+		ProductId:  id,
 	}
 
 	return m, nil
