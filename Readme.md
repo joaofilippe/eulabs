@@ -18,6 +18,23 @@ Tecnologias utilizadas para o desenvolvimento:
 Link para a documentação no POSTMAN:
 https://documenter.getpostman.com/view/16820128/UVsPPQBa
 
+
+
+## .env:
+
+O banco de dados utlizado é por meio do serviço MySQL. Para a devida conexão com o banco de dados, você deve ter um arquivo com o nome `.env` e as seguintes informações:
+
+
+
+```
+dbName = // insira o nome da database/schema aqui
+dbUser = // insira o nome do usuário do servidor aqui
+dbPass = // insira o password do usuário aqui
+dbPort = // insira a porta do servidor aqui
+```
+
+
+
 ## Funcionalidades:
 
 1. Criar um novo produto – Método POST;
